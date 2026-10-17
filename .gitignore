@@ -1,0 +1,13 @@
+# 2026-10-14 daily_commit.ps1 が置いた既定の除外
+node_modules/
+.venv/
+venv/
+__pycache__/
+.env
+.env.*
+!.env.example
+.dev_token
+*.pem
+*.key
+Thumbs.db
+desktop.ini

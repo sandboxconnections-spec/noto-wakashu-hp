@@ -1,0 +1,463 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow"><!-- 試作のあいだは検索に出さない。正式公開で外す -->
+<title>能登若衆の会｜若者の能登での挑戦を応援する</title>
+<meta name="description" content="能登に関わる10代後半〜30代前半の若者のコミュニティ。月に2回ほど、能登のどこかで「若衆会」を開いています。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@500;600;700&family=Noto+Sans+JP:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+  /* 参考＝RENEW（renew-fukui.com）の作り：白・黒・グレー＋ロゴの1色を強く／ゴシックの黒い見出し＋短い色の下線／写真は角なし・端へはみ出す／英数字はDIN系 */
+  :root {
+    --key: #c8641e;        /* ロゴの色（強め）※元データが届いたら差し替え */
+    --ochre: #c9973c;      /* ロゴの星（上） */
+    --red: #c44a32;        /* ロゴの丸 */
+    --black: #000;
+    --gray: #9b9b9b;
+    --bg-gray: #f0f0f0;
+    --bg-gray2: #ebebeb;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: #fff; color: var(--black); font-family: 游ゴシック体, "Yu Gothic", YuGothic, "Noto Sans JP", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif; font-weight: 500; font-size: 14px; line-height: 2.1; overflow-x: hidden; }
+  img { max-width: 100%; display: block; }
+  a { color: inherit; text-decoration: none; }
+  .en { font-family: "Barlow", 游ゴシック体, "Yu Gothic", sans-serif; letter-spacing: .03em; }
+
+  /* ヘッダー */
+  .hd { position: fixed; top: 0; left: 0; right: 0; height: 64px; background: #fff; z-index: 50; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; }
+  .hd .logo img { height: 40px; width: auto; }
+  .hd nav ul { list-style: none; margin: 0; padding: 0; display: flex; align-items: center; gap: 26px; }
+  .hd nav a { font-size: 13px; font-weight: 700; position: relative; z-index: 0; }
+  .hd nav a.cur::before { content: ""; position: absolute; z-index: -1; left: 50%; top: 50%; width: 24px; height: 24px; margin: -12px 0 0 -12px; border-radius: 50%; background: var(--key); }
+  .hd nav a.cur { color: #fff; padding: 0 2px; }
+  .hd .ig { font-size: 20px; margin-left: 10px; }
+  .hd .menu { display: none; background: none; border: 0; width: 34px; height: 24px; position: relative; padding: 0; }
+  .hd .menu span { position: absolute; left: 2px; right: 2px; height: 2px; background: #000; }
+  .hd .menu span:first-child { top: 7px; } .hd .menu span:last-child { top: 15px; }
+  main { padding-top: 64px; }
+
+  /* メイン写真（となりの写真が見えるスライド） */
+  .kv { position: relative; height: 560px; overflow: hidden; }
+  .kv .track { display: flex; height: 100%; transition: transform .9s cubic-bezier(.6,0,.2,1); }
+  .kv .slide { flex: 0 0 62vw; height: 100%; margin-right: 6px; position: relative; background: #ddd center/cover; }
+  .kv .slide .cap { position: absolute; left: 50%; bottom: 22px; transform: translateX(-50%); background: #fff; font-size: 19px; font-weight: 700; line-height: 1.7; padding: 4px 10px; white-space: nowrap; letter-spacing: .03em; }
+  .kv .tate { position: absolute; z-index: 3; left: 40px; top: 50%; transform: translateY(-50%); writing-mode: vertical-rl; font-size: 30px; font-weight: 700; line-height: 1.5; color: #fff; letter-spacing: .12em; text-shadow: 0 0 18px rgba(0,0,0,.45); }
+  .bars { display: flex; justify-content: center; gap: 8px; margin: 18px 0 0; }
+  .bars span { width: 40px; height: 3px; background: #e2e2e2; }
+  .bars span.on { background: var(--key); }
+
+  /* 丸い点のリンク列 */
+  .dotlinks { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px 34px; margin: 22px 20px 26px; padding: 0; list-style: none; }
+  .dotlinks a { font-size: 14px; font-weight: 700; display: inline-flex; align-items: center; gap: 8px; }
+  .dotlinks a::before { content: ""; width: 20px; height: 14px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-50 -50 100 100'%3E%3Cpath fill='%23c8641e' transform='rotate(-24)' d='M-50 0 Q-9 -7 0 -36 Q9 -7 50 0 Q9 7 0 36 Q-9 7 -50 0Z'/%3E%3C/svg%3E") center/contain no-repeat; }
+
+  /* お知らせの帯 */
+  .newsbar { position: relative; background: var(--bg-gray2); padding: 16px 70px 16px 0; }
+  .newsbar ul { list-style: none; margin: 0; padding: 0 0 0 0; display: flex; gap: 26px; overflow-x: auto; scrollbar-width: none; }
+  .newsbar ul::-webkit-scrollbar { display: none; }
+  .newsbar li a { display: flex; gap: 14px; align-items: center; width: 330px; }
+  .newsbar img { width: 160px; height: 108px; object-fit: cover; flex: 0 0 160px; }
+  .newsbar p { margin: 0; font-size: 14px; font-weight: 700; line-height: 1.75; }
+  .newsbar p small { display: block; color: var(--gray); font-size: 13px; }
+  .newsbar .tab { position: absolute; top: 0; right: 0; bottom: 0; width: 46px; background: linear-gradient(180deg, var(--ochre), var(--key) 55%, var(--red)); color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; letter-spacing: .3em; writing-mode: vertical-rl; }
+
+  /* 会について（丸を散らす） */
+  .about { position: relative; padding: 110px 0 0; }
+  /* ロゴの星と丸（散らす） */
+  .kira { position: absolute; z-index: 2; pointer-events: none; fill: currentColor; }
+  .kira.sp { display: none; }
+  .kira.o { color: var(--ochre); } .kira.k { color: var(--key); } .kira.r { color: var(--red); }
+  .row1 { display: grid; grid-template-columns: 50% 50%; align-items: center; position: relative; }
+  .row1 img { width: 100%; height: 400px; object-fit: cover; }
+  .row1 .txt { text-align: center; padding: 0 30px; position: relative; z-index: 3; }
+  .catch { font-size: 26px; font-weight: 700; letter-spacing: .03em; line-height: 1.6; margin: 0 0 26px; }
+  .since { font-size: 28px; font-weight: 700; line-height: 1.2; margin: 0 0 6px; }
+  .since small { font-size: 17px; }
+  .facts { display: inline-block; text-align: left; font-size: 15px; font-weight: 700; line-height: 1.85; margin: 10px 0 0; }
+  .facts span { color: var(--key); margin-right: .6em; }
+  .row2 { position: relative; width: 56%; margin: 120px auto 0; }
+  .row2 img { width: 100%; height: 620px; object-fit: cover; filter: brightness(.42); }
+  .row2 .over { position: absolute; inset: 0; display: grid; grid-template-columns: 1fr 1fr; align-items: center; color: #fff; padding: 0 0 0 0; }
+  br.sp { display: none; }
+  .row2 .l { font-size: 20px; font-weight: 700; line-height: 1.95; padding-left: 44px; letter-spacing: .06em; white-space: nowrap; }
+  .row2 .r { font-size: 14px; font-weight: 700; line-height: 2.2; padding-right: 30px; }
+  .row2 .more { position: absolute; left: 50%; bottom: 86px; transform: translateX(-50%); }
+  .more { display: inline-flex; align-items: center; justify-content: space-between; width: 200px; height: 45px; border-radius: 100px; padding: 0 12px 0 30px; border: 2px solid #000; font-size: 13px; font-weight: 600; }
+  .more::after { content: "\f054"; font-family: "Font Awesome 6 Free"; font-weight: 900; font-size: 9px; width: 20px; height: 20px; border-radius: 50%; background: var(--key); color: #fff; display: flex; align-items: center; justify-content: center; }
+  .more.w { border-color: #fff; color: #fff; }
+
+  /* 見出し（黒い太字＋短い色の下線） */
+  .sec { padding: 110px 0; }
+  .ttl { text-align: center; margin: 0 0 40px; }
+  .ttl::before { content: ""; display: block; width: 52px; height: 39px; margin: 0 auto 10px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 48'%3E%3Cg fill='%23c9973c'%3E%3Cpath transform='translate(18 13) rotate(-24) scale(.32)' d='M-50 0 Q-9 -7 0 -36 Q9 -7 50 0 Q9 7 0 36 Q-9 7 -50 0Z'/%3E%3Cpath transform='translate(46 11) rotate(-24) scale(.26)' d='M-50 0 Q-9 -7 0 -36 Q9 -7 50 0 Q9 7 0 36 Q-9 7 -50 0Z'/%3E%3C/g%3E%3Cpath fill='%23c8641e' transform='translate(26 27) rotate(-24) scale(.36)' d='M-50 0 Q-9 -7 0 -36 Q9 -7 50 0 Q9 7 0 36 Q-9 7 -50 0Z'/%3E%3Cellipse fill='%23c44a32' cx='34' cy='41' rx='8' ry='6' transform='rotate(-20 34 41)'/%3E%3C/svg%3E") center/contain no-repeat; }
+  .ttl h2 { display: inline-block; margin: 0; font-size: 26px; font-weight: 700; letter-spacing: .06em; line-height: 1.6; }
+  .lead { text-align: center; font-size: 17px; font-weight: 700; letter-spacing: .14em; line-height: 2; color: #333; margin: 0 0 18px; }
+  .note { text-align: center; font-size: 13px; letter-spacing: .1em; margin: 0 0 34px; }
+  .inner { max-width: 1300px; margin: 0 auto; padding: 0 20px; }
+
+  /* 活動＝写真の詰め合わせ */
+  .bento { display: grid; grid-template-columns: 2fr 1fr; grid-template-rows: 1fr 1fr; gap: 6px; height: 560px; }
+  .bento a { position: relative; display: block; background: #ccc center/cover; overflow: hidden; }
+  .bento a:first-child { grid-row: span 2; }
+  .bento .lb { position: absolute; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,.3); color: #fff; font-size: 18px; font-weight: 700; letter-spacing: .07em; line-height: 1.2; padding: 10px; text-align: center; }
+  .bento .lb::after { content: "\f054"; font-family: "Font Awesome 6 Free"; font-weight: 900; font-size: 10px; position: absolute; right: 14px; top: 50%; transform: translateY(-50%); }
+  .bento .lb small { display: block; font-size: 12px; font-weight: 500; letter-spacing: .04em; margin-top: 6px; line-height: 1.7; }
+  .center { text-align: center; margin-top: 46px; }
+
+  /* これまでの企画＝5列 */
+  .feat { display: grid; grid-auto-flow: column; grid-auto-columns: calc((100% - 4 * 16px) / 5); gap: 16px; overflow-x: auto; scrollbar-width: none; padding: 0 0 6px; }
+  .feat::-webkit-scrollbar { display: none; }
+  .feat img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; }
+  .feat .d { text-align: center; color: var(--gray); font-size: 14px; font-weight: 700; margin: 16px 0 0; line-height: 1.6; }
+  .feat h3 { text-align: center; font-size: 16px; font-weight: 700; line-height: 1.6; margin: 4px 0 0; letter-spacing: .02em; }
+
+  /* 若頭 */
+  .wkg { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; max-width: 1100px; margin: 0 auto; }
+  .wkg img { width: 100%; height: 380px; object-fit: cover; }
+  .wkg .redlb { display: inline-block; background: var(--key); color: #fff; font-size: 20px; font-weight: 700; padding: 2px 10px; line-height: 1.6; margin-bottom: 18px; }
+  .wkg blockquote { margin: 24px 0 0; padding: 0 0 0 18px; border-left: 3px solid var(--key); font-size: 16px; font-weight: 700; line-height: 1.9; }
+  .wkg cite { display: block; font-style: normal; font-size: 13px; color: var(--gray); margin-top: 6px; }
+
+  /* 応援のお願い＝写真を敷いた帯 */
+  .support { position: relative; color: #fff; overflow: hidden; }
+  .support .bgimg { position: absolute; inset: -20px; background: url("img/r19_12382.jpg") center/cover; filter: blur(6px) brightness(.45); }
+  .support .inner { position: relative; }
+  .support .ttl h2 { color: #fff; }
+  .support .lead { color: #fff; }
+  .uses { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; max-width: 980px; margin: 0 auto 50px; }
+  .uses div { background: #fff; color: #000; }
+  .uses div::before { content: ""; display: block; height: 10px; background: #f7d9c4; }
+  .uses p { margin: 0; padding: 18px 14px 20px; font-size: 16px; font-weight: 700; text-align: center; line-height: 1.7; }
+  .bank { max-width: 640px; margin: 0 auto; background: #fff; color: #000; padding: 24px 30px; text-align: center; }
+  .bank .h { font-size: 15px; font-weight: 700; border-bottom: 1px solid #ddd; padding-bottom: 8px; margin: 0 0 12px; }
+  .bank .tbd { color: var(--key); font-weight: 700; line-height: 1.9; margin: 0; }
+  .support .small { text-align: center; font-size: 13px; margin: 18px 0 0; }
+
+  /* これから */
+  .future { text-align: center; }
+  .future ul { list-style: none; margin: 0 0 30px; padding: 0; font-size: 16px; font-weight: 700; line-height: 2.4; letter-spacing: .05em; }
+  .future .word { display: inline-block; font-size: 20px; font-weight: 700; background: var(--key); color: #fff; padding: 4px 14px; line-height: 1.7; }
+
+  /* メディア掲載＝白い四角 */
+  .media { background: var(--bg-gray); }
+  .media h2.cap { text-align: center; font-size: 20px; font-weight: 700; letter-spacing: .04em; margin: 0 0 36px; }
+  .tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; max-width: 760px; margin: 0 auto; }
+  .tiles div { background: #fff; aspect-ratio: 1 / 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 12px; font-size: 15px; font-weight: 700; line-height: 1.6; }
+  .tiles small { color: var(--gray); font-size: 13px; margin-bottom: 6px; }
+
+  /* 団体概要・お問い合わせ */
+  .outline { max-width: 760px; margin: 0 auto; border-collapse: collapse; width: 100%; font-size: 14px; }
+  .outline th, .outline td { border-bottom: 1px solid #ddd; padding: 14px 10px; text-align: left; vertical-align: top; line-height: 1.9; }
+  .outline th { width: 140px; font-weight: 700; }
+  .contact { text-align: center; }
+  .contact .mail { font-size: 24px; font-weight: 700; margin: 0 0 26px; }
+
+  /* フッター */
+  .ft { background: var(--bg-gray2); padding: 60px 20px 0; text-align: center; }
+  .ft .top { font-size: 15px; font-weight: 700; display: inline-flex; gap: 8px; align-items: center; }
+  .ft .sns { display: flex; justify-content: center; gap: 10px; margin: 30px 0 44px; }
+  .ft .sns a { width: 54px; height: 54px; border-radius: 50%; background: #fff; display: flex; align-items: center; justify-content: center; font-size: 24px; }
+  .ft .map { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px 40px; list-style: none; margin: 0 0 50px; padding: 0; font-size: 13px; font-weight: 700; }
+  .ft .map a::before { content: "\f054"; font-family: "Font Awesome 6 Free"; font-weight: 900; font-size: 8px; margin-right: 6px; vertical-align: 2px; }
+  .ft .logo img { height: 46px; margin: 0 auto 8px; mix-blend-mode: multiply; }
+  .ft .org { font-size: 12px; font-weight: 700; margin: 0 0 40px; }
+  .ft .copy { background: #000; color: #fff; margin: 0 -20px; font-size: 12px; font-weight: 700; padding: 8px; }
+
+  @media (max-width: 900px) {
+    .hd { height: 58px; padding: 0 16px; }
+    .hd .logo img { height: 34px; }
+    .hd nav { display: none; position: fixed; top: 58px; left: 0; right: 0; bottom: 0; background: #fff; padding: 30px 26px; }
+    .hd nav.open { display: block; }
+    .hd nav ul { flex-direction: column; align-items: flex-start; gap: 22px; }
+    .hd nav a { font-size: 17px; }
+    .hd nav a.cur { color: #000; } .hd nav a.cur::before { display: none; }
+    .hd .menu { display: block; }
+    .hd .right { display: flex; align-items: center; gap: 16px; }
+    main { padding-top: 58px; }
+    .kv { height: 470px; }
+    .kv .slide { flex-basis: 84vw; }
+    .kv .slide .cap { font-size: 16px; bottom: 16px; }
+    .kv .tate { left: 20px; font-size: 22px; }
+    .dotlinks { justify-content: flex-start; flex-wrap: nowrap; overflow-x: auto; gap: 26px; margin: 18px 0 20px; padding: 0 16px; scrollbar-width: none; }
+    .dotlinks a { white-space: nowrap; }
+    .newsbar { padding-right: 46px; }
+    .newsbar li a { width: 290px; }
+    .newsbar img { width: 140px; height: 96px; flex-basis: 140px; }
+    .about { padding-top: 70px; }
+    .row1 { grid-template-columns: 1fr; }
+    .row1 img { height: 260px; width: 88%; }
+    .row1 .txt { padding: 40px 16px 0; }
+    .catch { font-size: 21px; }
+    .row2 { width: 100%; margin-top: 70px; }
+    .row2 img { height: 640px; }
+    .row2 .over { grid-template-columns: 1fr; align-content: center; gap: 30px; padding: 0 22px; }
+    .row2 .l { padding-left: 0; font-size: 19px; white-space: normal; }
+    br.sp { display: inline; }
+    .about .kira { display: none; }
+    .about .kira.sp { display: block; }
+    .kv .tate { display: none; }
+    .row2 .r { padding-right: 0; }
+    .row2 .more { bottom: 40px; }
+    .sec { padding: 72px 0; }
+    .ttl h2 { font-size: 22px; }
+    .lead { font-size: 15px; letter-spacing: .08em; }
+    .bento { grid-template-columns: 1fr 1fr; grid-template-rows: 260px 180px; height: auto; }
+    .bento a:first-child { grid-column: span 2; grid-row: auto; }
+    .bento .lb { font-size: 15px; }
+    .feat { grid-auto-columns: 62%; }
+    .wkg { grid-template-columns: 1fr; gap: 26px; }
+    .wkg img { height: 240px; }
+    .uses { grid-template-columns: 1fr; gap: 12px; }
+    .bank { padding: 20px 16px; }
+    .tiles { grid-template-columns: repeat(2, 1fr); }
+    .contact .mail { font-size: 19px; }
+    .outline th { width: 92px; }
+    .ft .map { gap: 8px 22px; }
+  }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .kv .track { transition: none; } }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="kira" viewBox="-50 -50 100 100"><path d="M-50 0 Q-9 -7 0 -36 Q9 -7 50 0 Q9 7 0 36 Q-9 7 -50 0Z"/></symbol>
+  <symbol id="maru" viewBox="-50 -50 100 100"><ellipse cx="0" cy="0" rx="50" ry="40" transform="rotate(-20)"/></symbol>
+</defs></svg>
+
+<header class="hd">
+  <a class="logo" href="#top"><img src="img/logo.png" alt="能登若衆の会"></a>
+  <nav>
+    <ul>
+      <li><a class="cur en" href="#top">TOP</a></li>
+      <li><a href="#news">お知らせ</a></li>
+      <li><a href="#about">若衆の会とは</a></li>
+      <li><a href="#activities">活動</a></li>
+      <li><a href="#projects">これまでの企画</a></li>
+      <li><a href="#support">応援する</a></li>
+      <li><a href="#contact">お問い合わせ</a></li>
+    </ul>
+  </nav>
+  <div class="right">
+    <a class="ig" href="https://www.instagram.com/noto_wakashu/" target="_blank" rel="noopener" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+    <button class="menu" aria-label="メニュー" aria-expanded="false"><span></span><span></span></button>
+  </div>
+</header>
+
+<main id="top">
+  <div class="kv">
+    <div class="tate">若者の能登での<br>挑戦を応援する</div>
+    <div class="track">
+      <div class="slide" style="background-image:url('img/r24_12029.jpg'); background-position:center 40%"><span class="cap">若衆会に集まった若衆</span></div>
+      <div class="slide" style="background-image:url('img/kiriko.jpg'); background-position:center 30%"><span class="cap">キリコを担ぐ若衆</span></div>
+      <div class="slide" style="background-image:url('img/r21_12320.jpg'); background-position:center 45%"><span class="cap">企画を発表する若衆</span></div>
+      <div class="slide" style="background-image:url('img/r25_12019.jpg'); background-position:center 60%"><span class="cap">奥能登ブリッジに集まった若衆</span></div>
+      <div class="slide" style="background-image:url('img/r22_12279.jpg'); background-position:center 55%"><span class="cap">古民家宿に集まった若衆</span></div>
+    </div>
+  </div>
+  <div class="bars"><span class="on"></span><span></span><span></span><span></span><span></span></div>
+
+  <ul class="dotlinks">
+    <li><a href="#about">若衆の会とは</a></li>
+    <li><a href="#activities">活動</a></li>
+    <li><a href="#projects">これまでの企画</a></li>
+    <li><a href="#support">応援のお願い</a></li>
+    <li><a href="https://www.instagram.com/noto_wakashu/" target="_blank" rel="noopener">Instagram</a></li>
+  </ul>
+
+  <section class="newsbar" id="news" aria-label="お知らせ">
+    <ul>
+      <li><a href="#activities"><img src="img/r26_11986.jpg" alt=""><p><small class="en">2026.09.30</small>第26回 若衆会を、輪島市南志見で開きました</p></a></li>
+      <li><a href="#activities"><img src="img/r25_12019.jpg" alt=""><p><small class="en">2026.08.07</small>第25回 若衆会は、奥能登ブリッジでBBQ</p></a></li>
+      <li><a href="#activities"><img src="img/kiriko.jpg" alt=""><p><small class="en">2026.07</small>あばれ祭で、メンバー34人がキリコを担ぎました</p></a></li>
+      <li><a href="#activities"><img src="img/r24_12029.jpg" alt=""><p><small class="en">2026.06.30</small>第24回 若衆会を、ゲストハウス黒島で開きました</p></a></li>
+      <li><a href="#projects"><img src="img/news_satoyama.jpg" alt=""><p><small class="en">2026.03.28</small>上黒丸で、ばあちゃんの里山料理教室</p></a></li>
+      <li><a href="#activities"><img src="img/r22_12279.jpg" alt=""><p><small class="en">2026.03.24</small>第22回 若衆会を、志賀町のTOGISOで開きました</p></a></li>
+    </ul>
+    <div class="tab en">NEWS</div>
+  </section>
+
+  <section class="about" id="about">
+    <svg class="kira o sp" viewBox="-50 -50 100 100" style="width:70px;right:6%;top:18px;transform:rotate(-24deg)"><use href="#kira" x="-50" y="-50" width="100" height="100"/></svg>
+    <svg class="kira r sp" viewBox="-50 -50 100 100" style="width:20px;right:22%;top:52px"><use href="#maru" x="-50" y="-50" width="100" height="100"/></svg>
+    <svg class="kira o" viewBox="-50 -50 100 100" style="width:120px;left:31%;top:40px;transform:rotate(-24deg)"><use href="#kira" x="-50" y="-50" width="100" height="100"/></svg>
+    <svg class="kira k" viewBox="-50 -50 100 100" style="width:70px;left:43%;top:120px;transform:rotate(-24deg)"><use href="#kira" x="-50" y="-50" width="100" height="100"/></svg>
+    <svg class="kira r" viewBox="-50 -50 100 100" style="width:26px;left:40%;top:190px"><use href="#maru" x="-50" y="-50" width="100" height="100"/></svg>
+    <svg class="kira o" viewBox="-50 -50 100 100" style="width:130px;right:3%;top:40px;transform:rotate(-24deg)"><use href="#kira" x="-50" y="-50" width="100" height="100"/></svg>
+    <svg class="kira k" viewBox="-50 -50 100 100" style="width:90px;left:6%;top:800px;transform:rotate(-24deg)"><use href="#kira" x="-50" y="-50" width="100" height="100"/></svg>
+    <svg class="kira r" viewBox="-50 -50 100 100" style="width:34px;left:12%;top:900px"><use href="#maru" x="-50" y="-50" width="100" height="100"/></svg>
+    <svg class="kira o" viewBox="-50 -50 100 100" style="width:110px;right:9%;top:1180px;transform:rotate(-24deg)"><use href="#kira" x="-50" y="-50" width="100" height="100"/></svg>
+    <div class="row1">
+      <img src="img/r18_12400.jpg" alt="若衆会のようす">
+      <div class="txt">
+        <h3 class="catch">若者の能登での挑戦を、応援する。</h3>
+        <p class="since en">2025.3 <small>START</small></p>
+        <div class="facts">
+          <div><span>会員</span>134人（うち20代 118人）</div>
+          <div><span>若衆会</span>月に2回ほど・会場は回ごとに変わります</div>
+          <div><span>地域</span>能登町・珠洲市・輪島市・七尾市ほか</div>
+        </div>
+      </div>
+    </div>
+    <div class="row2">
+      <img src="img/r1_12684.jpg" alt="第1回の若衆会（ゲストハウス黒島）">
+      <div class="over">
+        <div class="l">“集まる・挑戦する・学ぶ”<br>能登の若者がつながる<br>コミュニティ</div>
+        <div class="r">能登若衆の会は、<br>能登に生まれ育った人、<br>移り住んだ人、県外から通う人が<br>市町や仕事の垣根を越えて集まる会。<br>「能登を世界で一番<br>ワクワクが生まれる場所に」を<br>目指しています。</div>
+      </div>
+      <a class="more w en" href="#activities">MORE</a>
+    </div>
+  </section>
+
+  <section class="sec" id="activities">
+    <div class="inner">
+      <div class="ttl"><h2>活動</h2></div>
+      <div class="bento">
+        <a href="#about" style="background-image:url('img/r26_11986.jpg')"><span class="lb">若衆会<small>集まる</small></span></a>
+        <a href="#projects" style="background-image:url('img/r21_12318.jpg')"><span class="lb">チャレンジ企画<small>挑戦する</small></span></a>
+        <a href="#activities" style="background-image:url('img/learn.jpg')"><span class="lb">研修<small>学ぶ</small></span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="projects" style="padding-top:0">
+    <div class="inner">
+      <div class="ttl"><h2>これまでの企画</h2></div>
+      <div class="feat">
+        <div><img src="img/news_kuroshima.jpg" alt=""><p class="d en">2026.03 / 輪島市黒島</p><h3>黒島の祭りを、写真でふりかえる</h3></div>
+        <div><img src="img/news_yuzu.jpg" alt=""><p class="d en">2026.03 / 七尾市能登島</p><h3>能登島に、柚子を植える</h3></div>
+        <div><img src="img/news_satoyama.jpg" alt=""><p class="d en">2026.03 / 珠洲市上黒丸</p><h3>ばあちゃんの里山料理教室</h3></div>
+        <div><img src="img/news_okara.jpg" alt=""><p class="d en">2026.03 / 能登町</p><h3>豆腐屋のおからで、クッキーカフェ</h3></div>
+        <div><img src="img/news_shiitake.jpg" alt=""><p class="d en">2026.03 / 能登町寺分</p><h3>しいたけの生産現場に入る</h3></div>
+        <div><img src="img/project_zine.jpg" alt=""><p class="d en">制作中</p><h3>能登に生きる人を、1冊にする</h3></div>
+      </div>
+      <p class="center"><a class="more en" href="https://www.instagram.com/noto_wakashu/" target="_blank" rel="noopener">INSTAGRAM</a></p>
+    </div>
+  </section>
+
+  <section class="sec" id="wakagashira">
+    <div class="wkg inner">
+      <img src="img/hero2.jpg" alt="古民家の座敷で、若頭と若者がならんだ集合写真">
+      <div>
+        <span class="redlb">若頭のみなさん</span>
+        <p style="margin:0">会には、若者の挑戦を応援する先輩世代の「若頭」も参加しています。県の副知事や能登官民連携復興センターの職員、能登の経営者など、立場のちがう大人が、若衆会で同じテーブルを囲み、相談に乗ってくれています。</p>
+        <blockquote>大人の方々は、僕らが思っている以上に、若者の活動に興味を持ってくれています。<cite>代表・古矢拓夢（2026年 年頭のあいさつより）</cite></blockquote>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec support" id="support">
+    <div class="bgimg"></div>
+    <div class="inner">
+      <div class="ttl"><h2>応援のお願い</h2></div>
+      <p class="lead">若衆の活動を、応援してください！</p>
+      <div class="uses">
+        <div><p>若者が立ち上げる<br>企画の応援</p></div>
+        <div><p>県外から来る<br>若者の交通費</p></div>
+        <div><p>若衆会の<br>会場費 など</p></div>
+      </div>
+      <div class="bank">
+        <p class="h">振込先</p>
+        <p class="tbd">【口座は会で確かめてから載せます】<br>銀行名・支店名・口座の種類・口座番号・口座名義</p>
+      </div>
+      <p class="small">いただいた寄附の使い道は、本ホームページにてご報告します。</p>
+    </div>
+  </section>
+
+  <section class="sec future" id="future">
+    <div class="inner">
+      <div class="ttl"><h2>これから</h2></div>
+      <ul>
+        <li>それぞれが活動するフィールドで、若者を中心としたコミュニティをつくる</li>
+        <li>能登で活動する若者の「話題」を増やす</li>
+        <li>この会を続けることで、これから先もたくさんの化学反応を起こし続ける</li>
+        <li>それぞれがワクワクすることを「共有」し「協力」する</li>
+      </ul>
+      <span class="word">今が「ゴール」ではなく、今が「スタート」でありますように。</span>
+    </div>
+  </section>
+
+  <section class="sec media" id="media">
+    <div class="inner">
+      <h2 class="cap en">MEDIA</h2>
+      <div class="tiles">
+        <div><small class="en">2026.07</small>朝日新聞</div>
+        <div><small class="en">2026 夏</small>もっと<br>いしかわ<br>Vol.012</div>
+        <div><small class="en">2026.05</small>MRO<br>北陸放送</div>
+        <div><small class="en">2026.05</small>北陸中日新聞</div>
+        <div><small class="en">2026.03</small>北國新聞</div>
+        <div><small class="en">2026.03</small>北陸中日新聞</div>
+        <div><small class="en">2026.03</small>中日新聞</div>
+        <div><small class="en">2026.01</small>北國新聞</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="contact">
+    <div class="inner">
+      <div class="ttl"><h2>団体概要・お問い合わせ</h2></div>
+      <table class="outline">
+        <tr><th>名称</th><td>能登若衆の会</td></tr>
+        <tr><th>設立</th><td>2025年3月</td></tr>
+        <tr><th>代表</th><td>古矢拓夢</td></tr>
+        <tr><th>会員数</th><td>134人（2026年7月時点。うち20代が118人）</td></tr>
+        <tr><th>主な活動</th><td>若衆会の開催（年22回ほど）／若者の企画づくりの応援／祭りや地域行事への参加／県外の若者の受け入れ／被災地との交流・視察</td></tr>
+        <tr><th>事務局</th><td>能登若衆の会事務局</td></tr>
+      </table>
+      <div class="contact" style="margin-top:56px">
+        <p style="margin:0">取材・連携のご相談や寄附のことなど、お気軽にどうぞ。</p>
+        <p class="mail en">noto.wakashu@gmail.com</p>
+        <a class="more en" href="mailto:noto.wakashu@gmail.com">MAIL</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="ft">
+  <a class="top en" href="#top">PAGE TOP <i class="fa-solid fa-chevron-up" style="font-size:11px"></i></a>
+  <div class="sns"><a href="https://www.instagram.com/noto_wakashu/" target="_blank" rel="noopener" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a></div>
+  <ul class="map">
+    <li><a class="en" href="#top">TOP</a></li>
+    <li><a href="#news">お知らせ</a></li>
+    <li><a href="#about">若衆の会とは</a></li>
+    <li><a href="#activities">活動</a></li>
+    <li><a href="#projects">これまでの企画</a></li>
+    <li><a href="#support">応援する</a></li>
+    <li><a href="#contact">お問い合わせ</a></li>
+  </ul>
+  <div class="logo"><img src="img/logo.png" alt="能登若衆の会"></div>
+  <p class="org">能登若衆の会</p>
+  <div class="copy en">Copyright Noto Wakashu All Rights Reserved.</div>
+</footer>
+
+<script>
+  // メニュー（スマホ）
+  const btn = document.querySelector('.hd .menu'), nav = document.querySelector('.hd nav');
+  btn.addEventListener('click', () => { const o = nav.classList.toggle('open'); btn.setAttribute('aria-expanded', o); });
+  nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => nav.classList.remove('open')));
+  // メイン写真：となりの写真が見えるスライド（真ん中に寄せる）
+  // 左右にも写真が見えるよう、同じ並びを3回つなげて真ん中の並びを使う
+  const kv = document.querySelector('.kv'), track = kv.querySelector('.track'), bars = [...document.querySelectorAll('.bars span')];
+  const base = [...track.children], n = base.length;
+  base.forEach(s => track.appendChild(s.cloneNode(true)));
+  base.forEach(s => track.insertBefore(s.cloneNode(true), track.firstChild));
+  const slides = [...track.children];
+  let i = n;
+  const go = (k, anim = true) => {
+    i = k;
+    track.style.transition = anim ? '' : 'none';
+    const s = slides[i]; const x = s.offsetLeft - (kv.clientWidth - s.clientWidth) / 2;
+    track.style.transform = `translateX(${-x}px)`;
+    bars.forEach((b, j) => b.classList.toggle('on', j === i % n));
+    if (!anim) void track.offsetWidth; // 動きなしで飛んだあと、次の動きを正しく始める
+  };
+  track.addEventListener('transitionend', () => { if (i >= 2 * n) go(i - n, false); });
+  addEventListener('resize', () => go(i, false));
+  go(n, false);
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) setInterval(() => { if (i >= 2 * n) go(i - n, false); go(i + 1); }, 5000); // 裏のタブで transitionend が来なくても並びからはみ出さない
+</script>
+</body>
+</html>
