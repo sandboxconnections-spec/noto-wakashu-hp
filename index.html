@@ -10,6 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@500;600;700&family=Noto+Sans+JP:wght@500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <style>
   /* 参考＝RENEW（renew-fukui.com）の作り：白・黒・グレー＋ロゴの1色を強く／ゴシックの黒い見出し＋短い色の下線／写真は角なし・端へはみ出す／英数字はDIN系 */
   :root {
@@ -32,10 +33,9 @@
   /* ヘッダー */
   .hd { position: fixed; top: 0; left: 0; right: 0; height: 64px; background: #fff; z-index: 50; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; }
   .hd .logo img { height: 50px; width: auto; }
-  .hd nav ul { list-style: none; margin: 0; padding: 0; display: flex; align-items: center; gap: 26px; }
-  .hd nav a { font-size: 13px; font-weight: 700; position: relative; z-index: 0; }
-  .hd nav a.cur::before { content: ""; position: absolute; z-index: -1; left: 50%; top: 50%; width: 24px; height: 24px; margin: -12px 0 0 -12px; border-radius: 50%; background: var(--key); }
-  .hd nav a.cur { color: #fff; padding: 0 2px; }
+  .hd nav ul { list-style: none; margin: 0; padding: 0; display: flex; align-items: center; gap: 6px; }
+  .hd nav a { font-size: 13px; font-weight: 700; position: relative; z-index: 0; display: inline-block; padding: 3px 11px; border-radius: 100px; line-height: 1.6; }
+  .hd nav a.cur { color: #fff; background: var(--key); }
   .hd .ig { font-size: 20px; margin-left: 10px; }
   .hd .menu { display: none; background: none; border: 0; width: 34px; height: 24px; position: relative; padding: 0; }
   .hd .menu span { position: absolute; left: 2px; right: 2px; height: 2px; background: #000; }
@@ -69,7 +69,7 @@
   .news .more-row { margin: 18px 0 0; }
 
   /* 会について（丸を散らす） */
-  .about { position: relative; padding: 110px 0 0; }
+  .about { position: relative; padding: 110px 0 110px; }
   /* ロゴの星と丸（散らす） */
   .kira { position: absolute; z-index: 2; pointer-events: none; fill: currentColor; }
   .kira.sp { display: none; }
@@ -182,6 +182,44 @@
   .ft .org { font-size: 12px; font-weight: 700; margin: 0 0 40px; }
   .ft .copy { background: #000; color: #fff; margin: 0 -20px; font-size: 12px; font-weight: 700; padding: 8px; }
 
+  /* 会のはじまり（地震・復興） */
+  .origin { background: var(--bg-gray); }
+  .origin .wrap2 { max-width: 1100px; margin: 0 auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+  .origin img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; object-position: 50% 35%; }
+  .origin p { margin: 0 0 1.2em; font-size: 15px; line-height: 2.1; text-wrap: pretty; }
+  .origin .src { font-size: 12px; color: var(--gray); margin: 0; }
+
+  /* 活動の場所（地図） */
+  .place .mapwrap { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+  #map { height: 560px; background: #f4f4f4; }
+  .legend { display: flex; flex-wrap: wrap; gap: 6px 26px; justify-content: center; margin: 18px 0 0; font-size: 14px; font-weight: 700; }
+  .legend span { display: inline-flex; align-items: center; gap: 8px; }
+  .legend svg { width: 22px; height: 22px; }
+  .place .outside { text-align: center; font-size: 14px; margin: 14px 0 0; }
+  .place .maphint { text-align: center; font-size: 13px; color: var(--gray); margin: 12px 0 0; }
+  .pin { background: none; border: 0; }
+  .pin svg { width: 100%; height: 100%; display: block; transition: transform .2s; filter: drop-shadow(0 1px 2px rgba(0,0,0,.35)); }
+  .pin:hover svg { transform: scale(1.25); }
+  .leaflet-tooltip.plabel { background: #fff; border: 0; box-shadow: none; border-radius: 0; padding: 0 6px; font-family: inherit; font-size: 12px; font-weight: 700; color: #000; }
+  .leaflet-tooltip.plabel::before { display: none; }
+  .leaflet-popup-content-wrapper { border-radius: 0; }
+  .leaflet-popup-content { margin: 14px 16px; font-family: 游ゴシック体, "Yu Gothic", YuGothic, "Noto Sans JP", sans-serif; font-size: 13px; line-height: 1.8; }
+  .leaflet-popup-content b { display: block; font-size: 15px; }
+  .leaflet-popup-content small { display: block; color: var(--gray); margin-bottom: 4px; }
+  .leaflet-popup-content ul { margin: 0; padding-left: 1.1em; }
+  .leaflet-control-attribution { font-size: 11px; }
+
+  /* マウスを乗せたときの反応（押せる所だけ） */
+  .hd nav a, .dotlinks a, .ft .map a, .ft .top, .tlink, .hd .ig, .ft .sns a, .more, .more::after, .dotlinks a::before, .hd .logo img { transition: color .2s, background-color .2s, transform .2s, opacity .2s, border-color .2s; }
+  .hd nav a:not(.cur):hover { color: var(--key); }
+  .hd .ig:hover { color: var(--key); transform: scale(1.15); }
+  .hd .logo:hover img { opacity: .75; }
+  .dotlinks a:hover { color: var(--key); }
+  .dotlinks a:hover::before { transform: rotate(90deg) scale(1.15); }
+  .more:hover::after { transform: translateX(3px); }
+  .ft .map a:hover, .ft .top:hover { color: var(--key); }
+  .ft .sns a:hover { background: var(--key); color: #fff; transform: translateY(-2px); }
+
   @media (max-width: 900px) {
     .hd { height: 58px; padding: 0 16px; }
     .hd .logo img { height: 42px; }
@@ -189,7 +227,7 @@
     .hd nav.open { display: block; }
     .hd nav ul { flex-direction: column; align-items: flex-start; gap: 22px; }
     .hd nav a { font-size: 17px; }
-    .hd nav a.cur { color: #000; } .hd nav a.cur::before { display: none; }
+    .hd nav a.cur { background: none; color: var(--key); }
     .hd .menu { display: block; }
     .hd .right { display: flex; align-items: center; gap: 16px; }
     main { padding-top: 58px; }
@@ -204,7 +242,7 @@
     .news li img { grid-row: 1 / span 2; grid-column: 1; width: 76px; height: 54px; }
     .news li time { grid-column: 2; font-size: 12px; }
     .news li p { grid-column: 2; font-size: 14px; }
-    .about { padding-top: 70px; }
+    .about { padding-top: 70px; padding-bottom: 70px; }
     .row1 { grid-template-columns: 1fr; }
     .row1 img { height: 260px; width: 88%; }
     .row1 .txt { padding: 40px 16px 0; }
@@ -234,6 +272,9 @@
     .contact .mail { font-size: 19px; }
     .outline th { width: 92px; }
     .ft .map { gap: 8px 22px; }
+    .origin .wrap2 { grid-template-columns: 1fr; gap: 26px; }
+    #map { height: 440px; }
+    #map .plabel { display: none; }
   }
   @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .kv .track { transition: none; } }
 </style>
@@ -280,6 +321,7 @@
     <li><a href="#about">若衆の会とは</a></li>
     <li><a href="#activities">活動</a></li>
     <li><a href="#projects">これまでの企画</a></li>
+    <li><a href="#place">活動の場所</a></li>
     <li><a href="#support">応援のお願い</a></li>
     <li><a href="https://www.instagram.com/noto_wakashu/" target="_blank" rel="noopener">Instagram</a></li>
   </ul>
@@ -331,6 +373,17 @@
     </div>
   </section>
 
+  <section class="sec origin" id="origin">
+    <div class="ttl"><h2>会のはじまり</h2></div>
+    <div class="wrap2">
+      <img src="img/r1_12680.jpg" alt="黒島から見た日本海の夕日">
+      <div>
+        <p>2024年1月1日の能登半島地震のあと、能登では復興やまちづくりの話し合いが続いています。その場の多くは40代より上の世代が中心で、若い世代の声はほとんどありませんでした。そのことへの違和感と悔しさが、この会の原点です。</p>
+        <p>2025年3月、輪島市のゲストハウス黒島で、第1回の若衆会を開きました。いまはメンバーそれぞれが、仮設住宅での移動販売、大学生の受け入れ、森づくりや地域行事への参加など、自分のフィールドで復興と地域づくりに関わっています。</p>
+      </div>
+    </div>
+  </section>
+
   <section class="sec" id="activities">
     <div class="inner">
       <div class="ttl"><h2>活動</h2></div>
@@ -358,6 +411,16 @@
         <div><img src="img/project_zine.jpg" alt=""><p class="d en">制作中</p><h3>能登に生きる人を、1冊にする</h3></div>
       </div>
       <p class="center"><a class="more out en" href="https://www.instagram.com/noto_wakashu/" target="_blank" rel="noopener">INSTAGRAM</a></p>
+    </div>
+  </section>
+
+  <section class="sec place" id="place" style="padding-top:0">
+    <div class="ttl"><h2>活動の場所</h2></div>
+    <div class="mapwrap">
+      <div id="map" role="region" aria-label="能登若衆の会が活動した場所の地図"></div>
+      <p class="maphint">印を押すと、そこでの活動が出ます</p>
+      <div class="legend"><span><svg viewBox="-50 -50 100 100"><path transform="rotate(-24)" fill="#c8641e" stroke="#fff" stroke-width="6" d="M-50 0 Q-9 -7 0 -36 Q9 -7 50 0 Q9 7 0 36 Q-9 7 -50 0Z"/></svg>若衆会</span><span><svg viewBox="-50 -50 100 100"><ellipse rx="34" ry="27" transform="rotate(-20)" fill="#c9973c" stroke="#fff" stroke-width="6"/></svg>チャレンジ企画</span></div>
+      <p class="outside">能登の外では、<span class="nw">女川（2025年12月）と</span><span class="nw">神戸（2026年1月）にも</span><span class="nw">学びに行きました。</span></p>
     </div>
   </section>
 
@@ -448,8 +511,10 @@
     <li><a class="en" href="#top">TOP</a></li>
     <li><a href="#news">お知らせ</a></li>
     <li><a href="#about">若衆の会とは</a></li>
+    <li><a href="#origin">会のはじまり</a></li>
     <li><a href="#activities">活動</a></li>
     <li><a href="#projects">これまでの企画</a></li>
+    <li><a href="#place">活動の場所</a></li>
     <li><a href="#support">応援する</a></li>
     <li><a href="#contact">お問い合わせ</a></li>
   </ul>
@@ -458,7 +523,41 @@
   <div class="copy en">Copyright Noto Wakashu All Rights Reserved.</div>
 </footer>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>
+  // 活動の場所：国土地理院の淡色地図（出典を表示する）。点＝活動の記録（LINE・実績報告書）の「実施」だけ
+  const PLACES = [{"name":"輪島市 門前町黒島","venue":"ゲストハウス黒島","ll":[37.280807,136.736618],"kai":true,"items":["2025.03 第1回 若衆会","2025 1年目は毎月ここで","2026.06.30 第24回 若衆会"]},{"name":"輪島市 南志見","venue":"能登の方舟","ll":[37.43215943,137.03124203],"kai":true,"items":["2026.09.30 第26回 若衆会（南志見で初めて）"]},{"name":"珠洲市 飯田町・上黒丸","venue":"奥能登ブリッジ ほか","ll":[37.438625,137.26413],"kai":true,"items":["2026.01.26 第20回 若衆会","2026.03.28 ばあちゃんの里山料理教室（上黒丸）","2026.08.07 第25回 若衆会（BBQ）"]},{"name":"能登町 宇出津ほか","venue":"＆線・ケロンの小さな村・コンセールのと ほか","ll":[37.310223,137.163513],"kai":true,"items":["2026.02.26 第21回 若衆会","2026.03 メイク講座","2026.03.18 おからのクッキーカフェ","2026.05.20 若衆の田植え","2026.07 あばれ祭でキリコを担ぐ"]},{"name":"能登町 寺分","venue":"のとっこしいたけ","ll":[37.349163,137.083801],"kai":false,"items":["2026.03.08 しいたけの生産現場を見学"]},{"name":"志賀町 赤崎","venue":"能登の古民家宿TOGISO","ll":[37.162037,136.681458],"kai":true,"items":["2026.03.24 第22回 若衆会"]},{"name":"七尾市 能登島","venue":"能登島の畑","ll":[37.129616,137.001999],"kai":false,"items":["2026.03.21 柚子の苗木を植えて、牡蠣のBBQ"]},{"name":"七尾市","venue":"","ll":[37.043137,136.967468],"kai":true,"items":["2025.12.12 若衆会（21人）"]}];
+  const PIN = { kai: "<svg viewBox=\"-50 -50 100 100\"><path transform=\"rotate(-24)\" fill=\"#c8641e\" stroke=\"#fff\" stroke-width=\"6\" d=\"M-50 0 Q-9 -7 0 -36 Q9 -7 50 0 Q9 7 0 36 Q-9 7 -50 0Z\"/></svg>", ch: "<svg viewBox=\"-50 -50 100 100\"><ellipse rx=\"34\" ry=\"27\" transform=\"rotate(-20)\" fill=\"#c9973c\" stroke=\"#fff\" stroke-width=\"6\"/></svg>" };
+  if (window.L) {
+    const map = L.map('map', { scrollWheelZoom: false, dragging: !L.Browser.mobile, tap: false, zoomSnap: 1 });
+    L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/pale/{z}/{x}/{y}.png', {
+      maxZoom: 18, minZoom: 7,
+      attribution: '出典：<a href="https://maps.gsi.go.jp/development/ichiran.html" target="_blank" rel="noopener">国土地理院（地理院タイル）</a>'
+    }).addTo(map);
+    const pts = [];
+    PLACES.forEach(p => {
+      const icon = L.divIcon({ className: 'pin', html: p.kai ? PIN.kai : PIN.ch, iconSize: p.kai ? [34, 34] : [24, 24], iconAnchor: p.kai ? [17, 17] : [12, 12] });
+      const list = '<ul>' + p.items.map(t => '<li>' + t + '</li>').join('') + '</ul>';
+      L.marker(p.ll, { icon, title: p.name }).addTo(map)
+        .bindTooltip(p.name, { permanent: true, direction: 'right', offset: [14, 0], className: 'plabel' })
+        .bindPopup('<b>' + p.name + '</b>' + (p.venue ? '<small>' + p.venue + '</small>' : '') + list);
+      pts.push(p.ll);
+    });
+    map.fitBounds(pts, { padding: [30, 60] });
+  }
+
+  // メニューの丸：いま見ている段のところへ動かす
+  const navLinks = [...document.querySelectorAll('.hd nav a[href^="#"]')];
+  const secs = navLinks.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  const markCur = () => {
+    const y = window.scrollY + 120;
+    let cur = navLinks[0];
+    navLinks.forEach(a => { const el = document.querySelector(a.getAttribute('href')); if (el && el.getBoundingClientRect().top + window.scrollY <= y) cur = a; });
+    if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 4) cur = navLinks[navLinks.length - 1];
+    navLinks.forEach(a => a.classList.toggle('cur', a === cur));
+  };
+  addEventListener('scroll', markCur, { passive: true }); markCur();
+
   // メニュー（スマホ）
   const btn = document.querySelector('.hd .menu'), nav = document.querySelector('.hd nav');
   btn.addEventListener('click', () => { const o = nav.classList.toggle('open'); btn.setAttribute('aria-expanded', o); });
