@@ -325,7 +325,7 @@
     <div class="tate">若者の能登での<br>挑戦を応援する</div>
     <div class="track">
       <div class="slide" style="background-image:url('img/kv1_senmaida.jpg'); background-position:60% 55%"></div>
-      <div class="slide" style="background-image:url('img/kv2_wakashukai.jpg'); background-position:62% 30%"></div>
+      <div class="slide" style="background-image:url('img/kv2_wakashukai.jpg'); background-position:center 55%"></div>
       <div class="slide" style="background-image:url('img/kv3_taiko.jpg'); background-position:62% 40%"></div>
       <div class="slide" style="background-image:url('img/kv4_umi.jpg'); background-position:center 60%"></div>
       <div class="slide" style="background-image:url('img/kv5_abare.jpg'); background-position:35% 55%"></div>
@@ -405,7 +405,7 @@
     <div class="inner">
       <div class="ttl"><h2>活動</h2></div>
       <div class="bento">
-        <div style="background-image:url('img/act_kai.jpg'); background-position:50% 40%"><span class="lb">若衆会<small>集まる</small></span></div>
+        <div style="background-image:url('img/act_kai.jpg'); background-position:center 55%"><span class="lb">若衆会<small>集まる</small></span></div>
         <div style="background-image:url('img/act_challenge.jpg'); background-position:50% 35%"><span class="lb">チャレンジ企画<small>挑戦する</small></span></div>
         <div style="background-image:url('img/act_kenshu.jpg'); background-position:60% 60%"><span class="lb">研修<small>学ぶ</small></span></div>
       </div>
@@ -601,7 +601,7 @@
   const kv = document.querySelector('.kv'), track = kv.querySelector('.track'), bars = [...document.querySelectorAll('.bars span')];
   const base = [...track.children], n = base.length;
   base.forEach(s => track.appendChild(s.cloneNode(true)));
-  base.forEach(s => track.insertBefore(s.cloneNode(true), track.firstChild));
+  track.prepend(...base.map(s => s.cloneNode(true))); // 前に足す並びも同じ順に（1枚目の左に6枚目が見える）
   const slides = [...track.children];
   let i = n;
   const go = (k, anim = true) => {
