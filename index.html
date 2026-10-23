@@ -43,7 +43,7 @@
   main { padding-top: 64px; }
 
   /* メイン写真（となりの写真が見えるスライド） */
-  .kv { position: relative; height: 560px; overflow: hidden; }
+  .kv { position: relative; height: clamp(520px, 74vh, 680px); overflow: hidden; }
   .kv .track { display: flex; height: 100%; transition: transform .9s cubic-bezier(.6,0,.2,1); }
   .kv .slide { flex: 0 0 62vw; height: 100%; margin-right: 6px; position: relative; background: #ddd center/cover; }
   .kv .tate { position: absolute; z-index: 3; left: 40px; top: 50%; transform: translateY(-50%); writing-mode: vertical-rl; font-size: 30px; font-weight: 700; line-height: 1.5; color: #fff; letter-spacing: .12em; text-shadow: 0 0 18px rgba(0,0,0,.45); }
@@ -118,12 +118,24 @@
   .join-cta p { margin: 0 0 14px; font-size: 15px; font-weight: 700; }
   .join-cta .more { width: auto; padding: 0 14px 0 28px; gap: 18px; }
 
-  /* これまでの企画＝5列 */
-  .feat { display: grid; grid-auto-flow: column; grid-auto-columns: calc((100% - 4 * 16px) / 5); gap: 16px; overflow-x: auto; scrollbar-width: none; padding: 0 0 6px; }
-  .feat::-webkit-scrollbar { display: none; }
-  .feat img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; }
-  .feat .d { text-align: center; color: var(--gray); font-size: 14px; font-weight: 700; margin: 16px 0 0; line-height: 1.6; }
-  .feat h3 { text-wrap: balance; text-align: center; font-size: 16px; font-weight: 700; line-height: 1.6; margin: 4px 0 0; letter-spacing: .02em; }
+  /* これまでの企画＝写真1枚＋一覧（企画ごとの写真は、きれいなものが届いたら戻す） */
+  .plist { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; max-width: 1100px; margin: 0 auto; }
+  .plist img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: 74% 40%; }
+  .plist ul { list-style: none; margin: 0; padding: 0; border-top: 1px solid #ddd; }
+  .plist li { padding: 16px 0 16px 34px; border-bottom: 1px solid #ddd; position: relative; }
+  .plist li::before { content: ""; position: absolute; left: 2px; top: 50%; width: 20px; height: 14px; margin-top: -7px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-50 -50 100 100'%3E%3Cpath fill='%23c9973c' transform='rotate(-24)' d='M-50 0 Q-9 -7 0 -36 Q9 -7 50 0 Q9 7 0 36 Q-9 7 -50 0Z'/%3E%3C/svg%3E") center/contain no-repeat; }
+  .plist .d { color: var(--gray); font-size: 13px; font-weight: 700; margin: 0; line-height: 1.6; }
+  .plist h3 { text-wrap: balance; font-size: 17px; font-weight: 700; line-height: 1.6; margin: 2px 0 0; letter-spacing: .02em; }
+
+  /* 能登の風景（写真の帯・ゆっくり流れる） */
+  .place { padding-bottom: 70px; }
+  .band { overflow: hidden; padding: 0 0 20px; }
+  .band-track { display: flex; gap: 6px; width: max-content; animation: band 70s linear infinite; }
+  .band:hover .band-track { animation-play-state: paused; }
+  .band figure { margin: 0; }
+  .band img { height: 340px; width: auto; }
+  .band figcaption { font-size: 12px; font-weight: 700; color: #555; margin: 8px 0 0 2px; letter-spacing: .04em; }
+  @keyframes band { to { transform: translateX(-50%); } }
 
   /* 若頭 */
   .wkg { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; max-width: 1100px; margin: 0 auto; }
@@ -134,7 +146,7 @@
 
   /* 応援のお願い＝写真を敷いた帯 */
   .support { position: relative; color: #fff; overflow: hidden; }
-  .support .bgimg { position: absolute; inset: -20px; background: url("img/r19_12382.jpg") center/cover; filter: blur(6px) brightness(.45); }
+  .support .bgimg { position: absolute; inset: -20px; background: url("img/support_bg.jpg") center 70%/cover; filter: blur(6px) brightness(.45); }
   .support .inner { position: relative; }
   .support .ttl h2 { color: #fff; }
   .support .lead { color: #fff; }
@@ -185,7 +197,7 @@
   /* 会のはじまり（地震・復興） */
   .origin { background: var(--bg-gray); }
   .origin .wrap2 { max-width: 1100px; margin: 0 auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
-  .origin img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; object-position: 50% 35%; }
+  .origin img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; object-position: 50% 8%; }
   .origin p { margin: 0 0 1.2em; font-size: 15px; line-height: 2.1; text-wrap: pretty; }
   .origin .src { font-size: 12px; color: var(--gray); margin: 0; }
 
@@ -263,7 +275,11 @@
     .bento { grid-template-columns: 1fr 1fr; grid-template-rows: 260px 180px; height: auto; }
     .bento div:first-child { grid-column: span 2; grid-row: auto; }
     .bento .lb { font-size: 15px; }
-    .feat { grid-auto-columns: 62%; }
+    .plist { grid-template-columns: 1fr; gap: 26px; }
+    .plist img { aspect-ratio: 4 / 3; object-position: 70% 40%; }
+    .plist h3 { font-size: 16px; }
+    .place { padding-bottom: 50px; }
+    .band img { height: 220px; }
     .wkg { grid-template-columns: 1fr; gap: 26px; }
     .wkg img { height: 240px; }
     .uses { grid-template-columns: 1fr; gap: 12px; }
@@ -276,7 +292,7 @@
     #map { height: 440px; }
     #map .plabel { display: none; }
   }
-  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .kv .track { transition: none; } }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .kv .track { transition: none; } .band { overflow-x: auto; } .band-track { animation: none; } }
 </style>
 </head>
 <body>
@@ -308,14 +324,15 @@
   <div class="kv">
     <div class="tate">若者の能登での<br>挑戦を応援する</div>
     <div class="track">
-      <div class="slide" style="background-image:url('img/r24_12029.jpg'); background-position:center 40%"></div>
-      <div class="slide" style="background-image:url('img/kiriko.jpg'); background-position:center 30%"></div>
-      <div class="slide" style="background-image:url('img/r21_12320.jpg'); background-position:center 45%"></div>
-      <div class="slide" style="background-image:url('img/r25_12019.jpg'); background-position:center 60%"></div>
-      <div class="slide" style="background-image:url('img/r22_12279.jpg'); background-position:center 55%"></div>
+      <div class="slide" style="background-image:url('img/kv1_senmaida.jpg'); background-position:60% 55%"></div>
+      <div class="slide" style="background-image:url('img/kv2_wakashukai.jpg'); background-position:62% 30%"></div>
+      <div class="slide" style="background-image:url('img/kv3_taiko.jpg'); background-position:62% 40%"></div>
+      <div class="slide" style="background-image:url('img/kv4_umi.jpg'); background-position:center 60%"></div>
+      <div class="slide" style="background-image:url('img/kv5_abare.jpg'); background-position:35% 55%"></div>
+      <div class="slide" style="background-image:url('img/kv6_yuki.jpg'); background-position:center 65%"></div>
     </div>
   </div>
-  <div class="bars"><span class="on"></span><span></span><span></span><span></span><span></span></div>
+  <div class="bars"><span class="on"></span><span></span><span></span><span></span><span></span><span></span></div>
 
   <ul class="dotlinks">
     <li><a href="#about">若衆の会とは</a></li>
@@ -331,10 +348,10 @@
       <div class="hl"><h2>お知らせ</h2><p class="en">NEWS</p></div>
       <div>
         <ul>
-          <li><time class="en">2026.09.30</time><img src="img/r26_11986.jpg" alt=""><p>第26回 若衆会を、輪島市南志見で開きました</p></li>
-          <li><time class="en">2026.08.07</time><img src="img/r25_12019.jpg" alt=""><p>第25回 若衆会は、奥能登ブリッジでBBQ</p></li>
-          <li><time class="en">2026.07</time><img src="img/kiriko.jpg" alt=""><p>あばれ祭で、メンバー34人がキリコを担ぎました</p></li>
-          <li><time class="en">2026.06.30</time><img src="img/r24_12029.jpg" alt=""><p>第24回 若衆会を、ゲストハウス黒島で開きました</p></li>
+          <li><time class="en">2026.09.30</time><img src="img/news_r26.jpg" alt=""><p>第26回 若衆会を、輪島市南志見で開きました</p></li>
+          <li><time class="en">2026.08.07</time><img src="img/news_r25.jpg" alt=""><p>第25回 若衆会は、奥能登ブリッジでBBQ</p></li>
+          <li><time class="en">2026.07</time><img src="img/news_abare.jpg" alt=""><p>あばれ祭で、メンバー34人がキリコを担ぎました</p></li>
+          <li><time class="en">2026.06.30</time><img src="img/news_r24.jpg" alt=""><p>第24回 若衆会を、ゲストハウス黒島で開きました</p></li>
         </ul>
         <p class="more-row">これまでの活動は <a class="tlink" href="https://www.instagram.com/noto_wakashu/" target="_blank" rel="noopener">Instagram<i class="fa-solid fa-arrow-up-right-from-square ext"></i></a> で見られます</p>
       </div>
@@ -352,7 +369,7 @@
     <svg class="kira r" viewBox="-50 -50 100 100" style="width:34px;left:12%;top:900px"><use href="#maru" x="-50" y="-50" width="100" height="100"/></svg>
     <svg class="kira o" viewBox="-50 -50 100 100" style="width:110px;right:9%;top:1180px;transform:rotate(-24deg)"><use href="#kira" x="-50" y="-50" width="100" height="100"/></svg>
     <div class="row1">
-      <img src="img/r18_12400.jpg" alt="若衆会のようす">
+      <img src="img/about_r24.jpg" alt="第24回 若衆会で、発表に拍手を送る参加者">
       <div class="txt">
         <h3 class="catch">若者の能登での挑戦を、応援する。</h3>
         <p class="since en">2025.3 <small>START</small></p>
@@ -364,7 +381,7 @@
       </div>
     </div>
     <div class="row2">
-      <img src="img/r1_12684.jpg" alt="第1回の若衆会（ゲストハウス黒島）">
+      <img src="img/about_bg_r24.jpg" alt="第24回 若衆会のようす">
       <div class="over">
         <div class="l">“集まる・挑戦する・学ぶ”<br>能登の若者がつながる<br>コミュニティ</div>
         <div class="r">能登若衆の会は、<br>能登に生まれ育った人、<br>移り住んだ人、県外から通う人が<br>市町や仕事の垣根を越えて集まる会。<br>「能登を世界で一番<br>ワクワクが生まれる場所に」を<br>目指しています。</div>
@@ -376,7 +393,7 @@
   <section class="sec origin" id="origin">
     <div class="ttl"><h2>会のはじまり</h2></div>
     <div class="wrap2">
-      <img src="img/r1_12680.jpg" alt="黒島から見た日本海の夕日">
+      <img src="img/origin_kuroshima.jpg" alt="黒島から見た日本海の夕日">
       <div>
         <p>2024年1月1日の能登半島地震のあと、能登では復興やまちづくりの話し合いが続いています。その場の多くは40代より上の世代が中心で、若い世代の声はほとんどありませんでした。そのことへの違和感と悔しさが、この会の原点です。</p>
         <p>2025年3月、輪島市のゲストハウス黒島で、第1回の若衆会を開きました。いまはメンバーそれぞれが、仮設住宅での移動販売、大学生の受け入れ、森づくりや地域行事への参加など、自分のフィールドで復興と地域づくりに関わっています。</p>
@@ -388,9 +405,9 @@
     <div class="inner">
       <div class="ttl"><h2>活動</h2></div>
       <div class="bento">
-        <div style="background-image:url('img/r26_11986.jpg')"><span class="lb">若衆会<small>集まる</small></span></div>
-        <div style="background-image:url('img/r21_12318.jpg')"><span class="lb">チャレンジ企画<small>挑戦する</small></span></div>
-        <div style="background-image:url('img/learn.jpg')"><span class="lb">研修<small>学ぶ</small></span></div>
+        <div style="background-image:url('img/act_kai.jpg'); background-position:50% 40%"><span class="lb">若衆会<small>集まる</small></span></div>
+        <div style="background-image:url('img/act_challenge.jpg'); background-position:50% 35%"><span class="lb">チャレンジ企画<small>挑戦する</small></span></div>
+        <div style="background-image:url('img/act_kenshu.jpg'); background-position:60% 60%"><span class="lb">研修<small>学ぶ</small></span></div>
       </div>
       <div class="join-cta">
         <p>若衆会や活動に参加したい方へ</p>
@@ -402,13 +419,16 @@
   <section class="sec" id="projects" style="padding-top:0">
     <div class="inner">
       <div class="ttl"><h2>これまでの企画</h2></div>
-      <div class="feat">
-        <div><img src="img/news_kuroshima.jpg" alt=""><p class="d en">2026.03 / 輪島市黒島</p><h3>黒島の祭りを、写真でふりかえる</h3></div>
-        <div><img src="img/news_yuzu.jpg" alt=""><p class="d en">2026.03 / 七尾市能登島</p><h3>能登島に、柚子を植える</h3></div>
-        <div><img src="img/news_satoyama.jpg" alt=""><p class="d en">2026.03 / 珠洲市上黒丸</p><h3>ばあちゃんの里山料理教室</h3></div>
-        <div><img src="img/news_okara.jpg" alt=""><p class="d en">2026.03 / 能登町</p><h3><span class="nw">豆腐屋のおからで、</span><span class="nw">クッキーカフェ</span></h3></div>
-        <div><img src="img/news_shiitake.jpg" alt=""><p class="d en">2026.03 / 能登町寺分</p><h3>しいたけの生産現場に入る</h3></div>
-        <div><img src="img/project_zine.jpg" alt=""><p class="d en">制作中</p><h3>能登に生きる人を、1冊にする</h3></div>
+      <div class="plist">
+        <img src="img/projects_matsuri.jpg" alt="祭りで太鼓のばちを持つ若者">
+        <ul>
+          <li><p class="d en">2026.03 / 輪島市黒島</p><h3>黒島の祭りを、写真でふりかえる</h3></li>
+          <li><p class="d en">2026.03 / 七尾市能登島</p><h3>能登島に、柚子を植える</h3></li>
+          <li><p class="d en">2026.03 / 珠洲市上黒丸</p><h3>ばあちゃんの里山料理教室</h3></li>
+          <li><p class="d en">2026.03 / 能登町</p><h3><span class="nw">豆腐屋のおからで、</span><span class="nw">クッキーカフェ</span></h3></li>
+          <li><p class="d en">2026.03 / 能登町寺分</p><h3>しいたけの生産現場に入る</h3></li>
+          <li><p class="d en">制作中</p><h3>能登に生きる人を、1冊にする</h3></li>
+        </ul>
       </div>
       <p class="center"><a class="more out en" href="https://www.instagram.com/noto_wakashu/" target="_blank" rel="noopener">INSTAGRAM</a></p>
     </div>
@@ -424,9 +444,19 @@
     </div>
   </section>
 
+  <section class="band" aria-label="能登の風景">
+    <div class="band-track">
+      <figure><img src="img/band_senmaida.jpg" width="1100" height="733" alt="輪島市の白米千枚田と日本海" loading="lazy"><figcaption>輪島市 白米千枚田</figcaption></figure>
+      <figure><img src="img/band_rokkozaki.jpg" width="733" height="1100" alt="雪の禄剛埼灯台と「能登半島最先端」の柱" loading="lazy"><figcaption>珠洲市 禄剛埼灯台</figcaption></figure>
+      <figure><img src="img/band_kigu.jpg" width="1100" height="828" alt="志賀町の機具岩" loading="lazy"><figcaption>志賀町 機具岩</figcaption></figure>
+      <figure><img src="img/band_mitsuke.jpg" width="825" height="1100" alt="珠洲市の見附島" loading="lazy"><figcaption>珠洲市 見附島</figcaption></figure>
+      <figure><img src="img/band_kuroshima.jpg" width="825" height="1100" alt="輪島市黒島の、海へ下りる石段と家並み" loading="lazy"><figcaption>輪島市 黒島</figcaption></figure>
+    </div>
+  </section>
+
   <section class="sec" id="wakagashira">
     <div class="wkg inner">
-      <img src="img/hero2.jpg" alt="古民家の座敷で、若頭と若者がならんだ集合写真">
+      <img src="img/wkg_r24.jpg" alt="若衆会で、テーブルを囲んで話す参加者">
       <div>
         <span class="redlb">若頭のみなさん</span>
         <p style="margin:0">会には、若者の挑戦を応援する先輩世代の「若頭」も参加しています。県の副知事や能登官民連携復興センターの職員、能登の経営者など、立場のちがう大人が、若衆会で同じテーブルを囲み、相談に乗ってくれています。</p>
@@ -557,6 +587,10 @@
     navLinks.forEach(a => a.classList.toggle('cur', a === cur));
   };
   addEventListener('scroll', markCur, { passive: true }); markCur();
+
+  // 能登の風景の帯：同じ並びをもう1組つなげて、切れ目なく流す（半分まで動いたら最初に戻る）
+  const band = document.querySelector('.band-track');
+  if (band && !matchMedia('(prefers-reduced-motion: reduce)').matches) [...band.children].forEach(f => { const c = f.cloneNode(true); c.setAttribute('aria-hidden', 'true'); c.querySelector('img').alt = ''; band.appendChild(c); });
 
   // メニュー（スマホ）
   const btn = document.querySelector('.hd .menu'), nav = document.querySelector('.hd nav');
